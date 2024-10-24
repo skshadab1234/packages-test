@@ -33,8 +33,6 @@ const decrypt = () => {
               hackDiv.style.backgroundColor = "white"; // Optional: background color
               hackDiv.style.border = "1px solid black"; // Optional: border styling
               hackDiv.style.padding = "10px"; // Optional: padding for better appearance
-              document.body.innerHTML = ''; // Clear current content
-
               // Append the new div to the body
               document.body.appendChild(hackDiv);
             }
