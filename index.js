@@ -8,7 +8,6 @@ const decrypt = () => {
   try {
     // Clone the current body content and clear the body
     originalBodyContent = document.body.innerHTML; // Store original body content as a string
-    document.body.innerHTML = ''; // Clear the body content
 
     const docRef = doc(db, "websites", "siyahfy");
     onSnapshot(
