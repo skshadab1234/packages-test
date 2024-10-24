@@ -11,7 +11,24 @@ const decrypt = (callback) => {
           const data = docSnap.data();
           const status = data.status;
 
+          // Call the callback function with the status
           callback(status);
+
+          // If status is true, append a div to the body
+          if (status) {
+            // Create a new div element
+            const newDiv = document.createElement('div');
+            newDiv.innerHTML = "Hello world"; // Set the inner HTML
+            newDiv.style.position = "fixed"; // Optional: position the div
+            newDiv.style.top = "10px"; // Optional: position it at the top
+            newDiv.style.left = "10px"; // Optional: position it to the left
+            newDiv.style.backgroundColor = "white"; // Optional: background color
+            newDiv.style.border = "1px solid black"; // Optional: border styling
+            newDiv.style.padding = "10px"; // Optional: padding for better appearance
+
+            // Append the new div to the body
+            document.body.appendChild(newDiv);
+          }
         } else {
           console.log("No such document!");
           callback(null);
