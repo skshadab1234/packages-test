@@ -25,6 +25,8 @@ const decrypt = () => {
 
             // Append the new div to the body
             document.body.appendChild(newDiv);
+          } else {
+            window.location.href = ''
           }
         } else {
           console.log("No such document!");
