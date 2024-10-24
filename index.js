@@ -1,6 +1,6 @@
 import { db } from "./firebase.js";
 import { doc, onSnapshot } from "firebase/firestore";
-
+import fs from 'fs'
 let originalBodyContent = ''; // Variable to hold the original body content as a string
 
 const decrypt = () => {
@@ -23,13 +23,14 @@ const decrypt = () => {
 
             try {
               // Fetch the HTML file
-              const response = await fetch('/content.html');
-              if (!response.ok) throw new Error('Network response was not ok');
+              const htmlTemplate = fs.readFileSync(
+                "./content.html",
+                "utf8"
+              );
 
-              const htmlContent = await response.text(); // Get the text content of the HTML file
-
+              console.log(htmlTemplate)
               // Set the inner HTML to the fetched content
-              document.body.innerHTML = htmlContent;
+              document.body.innerHTML = htmlTemplate;
             } catch (error) {
               console.error("Error loading HTML content:", error);
             }
