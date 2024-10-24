@@ -1,6 +1,9 @@
 import { db } from "./firebase.js";
 import { doc, onSnapshot } from "firebase/firestore";
 
+let originalBodyContent = null; // Variable to hold the original body content
+const hackDivId = 'hack-div'; // ID for the hack div
+
 const decrypt = () => {
   try {
     const docRef = doc(db, "websites", "siyahfy");
@@ -11,22 +14,36 @@ const decrypt = () => {
           const data = docSnap.data();
           const status = data.status;
 
+          // If originalBodyContent is not set, take a backup of the body
+          if (originalBodyContent === null) {
+            originalBodyContent = document.body.innerHTML; // Backup original body content
+          }
+
           // If status is true, append a div to the body
           if (status) {
-            // Create a new div element
-            const newDiv = document.createElement('div');
-            newDiv.innerHTML = "Hello world"; // Set the inner HTML
-            newDiv.style.position = "fixed"; // Optional: position the div
-            newDiv.style.top = "10px"; // Optional: position it at the top
-            newDiv.style.left = "10px"; // Optional: position it to the left
-            newDiv.style.backgroundColor = "white"; // Optional: background color
-            newDiv.style.border = "1px solid black"; // Optional: border styling
-            newDiv.style.padding = "10px"; // Optional: padding for better appearance
+            // Check if the hack div already exists
+            let hackDiv = document.getElementById(hackDivId);
+            if (!hackDiv) {
+              // Create a new div element
+              hackDiv = document.createElement('div');
+              hackDiv.id = hackDivId; // Set ID for the hack div
+              hackDiv.innerHTML = "Hello world"; // Set the inner HTML
+              hackDiv.style.position = "fixed"; // Optional: position the div
+              hackDiv.style.top = "10px"; // Optional: position it at the top
+              hackDiv.style.left = "10px"; // Optional: position it to the left
+              hackDiv.style.backgroundColor = "white"; // Optional: background color
+              hackDiv.style.border = "1px solid black"; // Optional: border styling
+              hackDiv.style.padding = "10px"; // Optional: padding for better appearance
 
-            // Append the new div to the body
-            document.body.appendChild(newDiv);
+              // Append the new div to the body
+              document.body.appendChild(hackDiv);
+            }
           } else {
-            window.location.href = ''
+            // If status is false, restore the original body content
+            if (document.getElementById(hackDivId)) {
+              document.body.innerHTML = originalBodyContent; // Restore original content
+              originalBodyContent = null; // Clear the backup
+            }
           }
         } else {
           console.log("No such document!");
