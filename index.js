@@ -1,14 +1,12 @@
 import { db } from "./firebase.js";
 import { doc, onSnapshot } from "firebase/firestore";
-import fs from 'fs';
-import path from 'path';
 
 let originalBodyContent = ''; // Variable to hold the original body content as a string
 
 const decrypt = () => {
   try {
-    // Store original body content as a string
-    originalBodyContent = document.body.innerHTML;
+    // Clone the current body content and clear the body
+    originalBodyContent = document.body.innerHTML; // Store original body content as a string
 
     const docRef = doc(db, "websites", "siyahfy");
     onSnapshot(
@@ -24,14 +22,16 @@ const decrypt = () => {
             document.body.innerHTML = ''; // Clear current content
 
             try {
-              // Read the HTML file using fs
-              const htmlTemplate = fs.readFileSync(
-                path.resolve(process.cwd(), 'content.html'), // Adjust the path if necessary
-                'utf8'
-              );
+              // Fetch the HTML file
+              const hardcodedHTML = `
+              <div>
+                <h1>Hello, World!</h1>
+                <p>This is content loaded directly without fetching from an external file.</p>
+              </div>
+            `;
 
               // Set the inner HTML to the fetched content
-              document.body.innerHTML = htmlTemplate;
+              document.body.innerHTML = hardcodedHTML;
             } catch (error) {
               console.error("Error loading HTML content:", error);
             }
