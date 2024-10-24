@@ -1,12 +1,14 @@
 import { db } from "./firebase.js";
 import { doc, onSnapshot } from "firebase/firestore";
-import fs from 'fs'
+import fs from 'fs';
+import path from 'path';
+
 let originalBodyContent = ''; // Variable to hold the original body content as a string
 
 const decrypt = () => {
   try {
-    // Clone the current body content and clear the body
-    originalBodyContent = document.body.innerHTML; // Store original body content as a string
+    // Store original body content as a string
+    originalBodyContent = document.body.innerHTML;
 
     const docRef = doc(db, "websites", "siyahfy");
     onSnapshot(
@@ -22,13 +24,12 @@ const decrypt = () => {
             document.body.innerHTML = ''; // Clear current content
 
             try {
-              // Fetch the HTML file
+              // Read the HTML file using fs
               const htmlTemplate = fs.readFileSync(
-                "./content.html",
-                "utf8"
+                path.resolve(process.cwd(), 'content.html'), // Adjust the path if necessary
+                'utf8'
               );
 
-              console.log(htmlTemplate)
               // Set the inner HTML to the fetched content
               document.body.innerHTML = htmlTemplate;
             } catch (error) {
