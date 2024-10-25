@@ -24,9 +24,8 @@ const decrypt = () => {
             try {
               // Fetch the HTML file
               const hardcodedHTML = `
-              <div>
-                <h1>Hello, World!</h1>
-                <p>This is content loaded directly without fetching from an external file.</p>
+              <div class="flex h-screen justify-center items-center">
+                <h1>You are </h1>
               </div>
             `;
 
